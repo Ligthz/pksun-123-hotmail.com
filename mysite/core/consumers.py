@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from channels.consumer import AsyncConsumer
 from channels.db import database_sync_to_async
 
-from .models import Thread, Item
+from .models import Item
 from . import my_db
 
 
@@ -41,9 +41,6 @@ class MQTTConsumer(AsyncConsumer):
     async def websocket_disconnect(self,event):
         print("Disconnected",event)
 
-    @database_sync_to_async
-    def get_thread(self, user, other_username):
-        return Thread.objects.get_or_new(user, other_username)[0]
 
     
     

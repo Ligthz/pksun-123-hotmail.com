@@ -102,21 +102,3 @@ class ThreadManager(models.Manager):
                 return obj, True
             return None, False
 
-
-class Thread(models.Model):
-    first        = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_thread_first')
-    second       = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='chat_thread_second')
-    updated      = models.DateTimeField(auto_now=True)
-    timestamp    = models.DateTimeField(auto_now_add=True)
-    
-    objects      = ThreadManager()
-
-    @property
-    def room_group_name(self):
-        return f'chat_{self.id}'
-
-    def broadcast(self, msg=None):
-        if msg is not None:
-            broadcast_msg_to_chat(msg, group_name=self.room_group_name, user='admin')
-            return True
-        return False
