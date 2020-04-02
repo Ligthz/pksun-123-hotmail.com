@@ -1,0 +1,86 @@
+{% extends 'base_table.html' %}
+    {% csrf_token %}
+    {% load static %}
+    {% block title %}Table Result{% endblock %}
+
+    {% block content %}
+        <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+        <script src="{% static 'static2/js/bootstrap.min.js'%}"></script>
+        <script src="{% static 'static2/js/menu.js'%}"></script>
+        <script src="{% static 'static2/js/animated-headline.js'%}"></script>
+        <script src="{% static 'static2/js/isotope.pkgd.min.js'%}"></script>    
+
+        <!--------- Start tablulate---------->
+
+        <!--------- Start tablulate---------->
+        <div class="container main-container">
+        <div class="table100 ver5 m-b-110">
+            <h1><i class="fas fa-chalkboard-teacher"></i> {{outlet}} </h1>
+            <p>{{t_show}}</p>
+            <script>
+                function pyfunction2(e) {
+                    window.location.href = '/tabulate?method=POST&do_type='+e+'&passport={{passport}}&date1={{date1}}&date2={{date2}}&plate={{plate}}'
+                }
+            </script>
+
+            <hr>
+            <br>
+            <br>
+            <table id="table_id" border='2' align="center"  style="width:100%">
+            <!--------- Obtain raw data ---------->
+                <caption><i>Recorded Data</i></caption>
+
+                <!--------- tabulate header ---------->
+                <thead>
+                <tr class="row100 head">
+                    <th class="column100 column1" align="center">test</th>
+                    <th class="column100 column1" align="center">test</th>
+                    <th class="column100 column1" align="center">test</th>
+                </tr>
+                </thead>
+                <!--------- end header ---------->
+                
+                <!--------- tabulate header ---------->
+                <tbody>
+                <tr class="row100">
+                        <TD class="column100 column1" align="center">test1</TD>
+                        <TD class="column100 column1" align="center">test1</TD>
+                        <TD class="column100 column1" align="center">test1</TD>
+                </tr>
+                <tr class="row100">
+                        <TD class="column100 column1" align="center">test2</TD>
+                        <TD class="column100 column1" align="center">test2</TD>
+                        <TD class="column100 column1" align="center">test2</TD>
+                </tr>
+                <tr class="row100">
+                        <TD class="column100 column1" align="center">test3</TD>
+                        <TD class="column100 column1" align="center">test3</TD>
+                        <TD class="column100 column1" align="center">test3</TD>
+                </tr>
+            <!--------- end obtain header ---------->
+            </tbody>
+            </table>
+            <hr>
+
+            <!--------- js script ---------->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.css"/>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+            <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.js"></script>
+            <script>
+                $(document).ready( function () {
+                $('#table_id').DataTable({
+                dom: 'B<"clear">lfrtip',
+                buttons: {
+                    name: 'primary',
+                    buttons: [ 'copy' , 'csv','excel','pdf']
+                    }}
+                );
+            } );
+
+            </script>
+            <!--------- end js script ---------->
+        </div>
+        </div>  
+    {% endblock %}

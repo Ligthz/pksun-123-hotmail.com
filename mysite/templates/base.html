@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en"><head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>LLG SMALLs</title>
+    <!-- plugins:css -->
+    <link href="{% static 'vendors/iconfonts/mdi/css/materialdesignicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/iconfonts/ionicons/css/ionicons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/iconfonts/typicons/src/font/typicons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/iconfonts/flag-icon-css/css/flag-icon.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/css/vendor.bundle.base.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/css/vendor.bundle.addons.css' %}" rel="stylesheet">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+     <!-- Bootstrap -->
+
+    <!-- main css -->
+    <link href="{% static 'static2/css/style.css'%}" rel="stylesheet">
+
+    <link href="{% static 'css/shared/style.css' %}" rel="stylesheet">
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link href="{% static 'css/demo_1/style.css' %}" rel="stylesheet">
+    <!-- End Layout styles -->
+    <link href="{% static 'images/favicon.png' %}" rel="shortcut icon">
+    {% block header %}
+    {% endblock %}
+  </head>
+  <body>
+    <div class="container-scroller">
+      <!-- partial:../../partials/_navbar.html -->
+      <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center">
+          <ul class="navbar-nav">
+            <li class="nav-item font-weight-semibold d-none d-lg-block">Sales Managemnet And Logistic Link System</li>
+          </ul>
+          <form class="ml-auto search-form d-none d-md-block" action="#">
+            <div class="form-group">
+              <input class="form-control" type="search" placeholder="Search Here">
+            </div>
+          </form>
+          <ul class="navbar-nav ml-auto" id = "notification">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link count-indicator" id="messageDropdown" aria-expanded="false" href="#" data-toggle="dropdown">
+                <i class="mdi mdi-bell-outline"></i>
+                <span class="count">2</span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
+                <a class="dropdown-item py-3">
+                  <p class="mb-0 font-weight-medium float-left">You have 2 unread mails </p>
+                  <span class="badge badge-pill badge-primary float-right">View all</span>
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                  <div class="preview-item-content flex-grow py-2">
+                    <p class="preview-subject ellipsis font-weight-medium text-dark">INV-00001 rejected </p>
+                    <p class="font-weight-light small-text"> Stock not ready. </p>
+                  </div>
+                </a>
+                <a class="dropdown-item preview-item">
+                  <div class="preview-thumbnail">
+                  <div class="preview-item-content flex-grow py-2">
+                    <p class="preview-subject ellipsis font-weight-medium text-dark">INV-00002 rejected </p>
+                    <p class="font-weight-light small-text"> Unable to deliver. </p>
+                  </div>
+                </a>
+              </div>
+            </li>
+            
+
+            <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
+              <a class="nav-link dropdown-toggle" id="UserDropdown" aria-expanded="false" href="#" data-toggle="dropdown">
+              <img class="img-xs rounded-circle" src="{% static 'images/logo.png' %}" alt="Profile image">
+                 </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+                <div class="dropdown-header text-center">
+                  <img class="img-md rounded-circle" src="{% static 'images/logo.png' %}" alt="Profile image">
+                  <p class="mb-1 mt-3 font-weight-semibold">{{user.username}}</p>
+                  <p class="font-weight-light text-muted mb-0">Administrator</p>
+                </div>
+                <a class="dropdown-item">My Profile <!--span class="badge badge-pill badge-danger">1</span--><i class="dropdown-item-icon ti-dashboard"></i></a>
+                <a class="dropdown-item">Activity<i class="dropdown-item-icon ti-location-arrow"></i></a>
+                <a class="dropdown-item" href="{% url 'logout' %}">Sign Out<i class="dropdown-item-icon ti-power-off"></i></a>
+              </div>
+            </li>
+            {% else %}
+              <form class="form-inline my-2 my-lg-0">
+                <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
+                <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
+              </form>
+            {% endif %}
+          </ul>
+          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+            <span class="mdi mdi-menu"></span>
+          </button>
+        </div>
+      </nav>
+      <!-- partial -->
+      <div class="container-fluid page-body-wrapper">
+        <!-- partial:../../partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+          <ul class="nav">
+            <li class="nav-item nav-profile">
+              <a class="nav-link" href="/dashboard">
+                <div class="profile-image">
+                  
+                  {% if user.is_authenticated %}
+                  <img class="img-xs rounded-circle" src="{% static 'images/logo.png' %}" alt="profile image">
+                  <div class="dot-indicator bg-success"></div>
+                  {% endif %}
+                </div>
+                <div class="text-wrapper">
+                {% if user.is_authenticated %}
+                  <p class="profile-name">{{user.username}}</p>
+                  <p class="designation">Administrator</p>
+                {% else %}
+                  <p class="profile-name"></p>
+                  <p class="designation">Please Login</p>
+                {% endif %}
+                </div>
+              </a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item nav-category">Main Menu</li>
+            <li class="nav-item">
+              <a class="nav-link" href="/dashboard">
+                <i class="menu-icon typcn typcn-document-text"></i>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/order">
+                <i class="menu-icon typcn typcn-th-large-outline"></i>
+                <span class="menu-title">Order</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/irrigation">
+                <i class="menu-icon typcn typcn-bell"></i>
+                <span class="menu-title">Data Analytics *</span>
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-expanded="false" aria-controls="ui-basic" href="#ui-basic" data-toggle="collapse">
+                <i class="menu-icon typcn typcn-coffee"></i>
+                <span class="menu-title">Data Base</span>
+                <i class="menu-arrow"></i>
+              </a>
+              <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/plant_data">Overall Datas</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/irrigation_data">Specified Order</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/user_action">User Actions</a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+            {% else %}
+            <li class="nav-item nav-category">Login to Access Server</li>
+            {% endif %}
+          </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+          <div class="content-wrapper"> 
+          
+          
+            {% block content %}
+            {% endblock %}
+          <!-- content-wrapper ends -->
+          <!-- partial:../../partials/_footer.html -->
+          <footer class="footer">
+            <div class="container-fluid clearfix">
+              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2020 IOT Control Solution Sdn Bhd. All rights reserved.</span>
+              </span>
+            </div>
+          </footer>
+          <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="{% static 'vendors/js/vendor.bundle.base.js' %}"></script>
+    <script src="{% static 'vendors/js/vendor.bundle.addons.js' %}"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page-->
+    <!-- End plugin js for this page-->
+    <!-- inject:js -->
+    <script src="{% static 'js/shared/off-canvas.js' %}"></script>
+    <script src="{% static 'js/shared/misc.js' %}"></script>
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <!-- End custom js for this page-->
+    <script src="{% static 'js/shared/chart.js' %}"></script>
+    
+    <script src="{% static 'static2/js/animated-headline.js'%}"></script>
+
+    
+      <script src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+      <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script>
+      // websocket scripts
+      //console.log(window.location)
+      var loc = window.location
+      /*var msgInput = $("#id_message")
+      var chatHolder = $("#chat-items")
+      var me = $("#myUsername").val()
+      var formData = $("#myForm")*/
+
+      var wsStart = 'ws://'
+      if (loc.protocol == 'https:'){
+          wsStart = 'wss://'
+      }
+
+      var endpoint = wsStart + loc.host + loc.pathname
+      var socket = new WebSocket(endpoint)
+
+      
+      socket.connect = function(e){
+          console.log("connect",e)
+      }
+
+      socket.onmessage = function(e){
+          console.log("message",e)
+          var chatDataMsg = JSON.parse(e.data)
+          //chatHolder.append("<li>"+chatDataMsg.message+" via "+chatDataMsg.username+"</li>")
+      }
+
+      /*
+      socket.onopen = function(e){
+          console.log("open",e)
+          formData.submit(function(event){
+              event.preventDefault()
+              var msgText = msgInput.val()
+              chatHolder.append("<li>"+msgText+" via "+me+"</li>")
+              var finalData = {
+                  'message': msgText,
+                  'operation': 'show'
+              }
+              socket.send(JSON.stringify(finalData))
+              
+              //var formDataSerialized = formData.serialize()
+              //socket.send(formDataSerialized)
+              
+              msgInput.val('')
+              formData[0].reset()
+          })
+      }*/
+
+
+      socket.onerror = function(e){
+          console.log("error",e)
+      }
+
+      socket.onclose = function(e){
+          console.log("close",e)
+      }
+
+      window.onload = function(){
+        {% block onload %}
+        {% endblock %}
+    }
+
+      </script>
+
+{% block script %}
+{% endblock %}
+  
+</body></html>

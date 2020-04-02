@@ -1,0 +1,202 @@
+{% extends 'base.html' %}
+    {% load static %}
+
+    {% block content %}
+         <script>
+            var order_counter = 0; 
+            var return_counter = 0; 
+            var collect_counter = 0; 
+            function add_row_order() {
+                var y = document.getElementById('order_form');
+                var x0 = document.createElement("DIV");
+                {% for o_item in o_items %}
+                    var x1 = document.createElement("DIV");
+                    var x2 = document.createElement("DIV");
+                    var x3 = document.createElement("INPUT");
+
+                    x0.setAttribute("class", "row");
+                    x1.setAttribute("class", "col-md-1");
+                    x2.setAttribute("class", "form-group row");
+                    x3.setAttribute("class", "form-control");
+                    x3.setAttribute("type", "text");
+                    order_counter = order_counter + 1;
+                    var id_name = "0_{{forloop.counter0}}_"+order_counter.toString()
+                    x3.setAttribute("name", id_name);
+
+                    x2.appendChild(x3);
+                    x1.appendChild(x2);
+                    x0.appendChild(x1);
+                {% endfor %}
+                y.appendChild(x0);
+            }
+
+            function add_row_return() {
+                var y = document.getElementById('return_form');
+                var x0 = document.createElement("DIV");
+                {% for r_item in r_items %}
+                    var x1 = document.createElement("DIV");
+                    var x2 = document.createElement("DIV");
+                    var x3 = document.createElement("INPUT");
+
+                    x0.setAttribute("class", "row");
+                    x1.setAttribute("class", "col-md-1");
+                    x2.setAttribute("class", "form-group row");
+                    x3.setAttribute("class", "form-control");
+                    x3.setAttribute("type", "text");
+                    return_counter = return_counter + 1;
+                    var id_name = "1_{{forloop.counter0}}_"+return_counter.toString()
+                    x3.setAttribute("name", id_name);
+
+                    x2.appendChild(x3);
+                    x1.appendChild(x2);
+                    x0.appendChild(x1);
+                {% endfor %}
+                y.appendChild(x0);
+            }
+
+            function add_row_collect() {
+                var y = document.getElementById('collect_form');
+                var x0 = document.createElement("DIV");
+                {% for c_item in c_items %}
+                    var x1 = document.createElement("DIV");
+                    var x2 = document.createElement("DIV");
+                    var x3 = document.createElement("INPUT");
+
+                    x0.setAttribute("class", "row");
+                    x1.setAttribute("class", "col-md-1");
+                    x2.setAttribute("class", "form-group row");
+                    x3.setAttribute("class", "form-control");
+                    x3.setAttribute("type", "text");
+                    collect_counter = collect_counter + 1;
+                    var id_name = "2_{{forloop.counter0}}_"+collect_counter.toString()
+                    x3.setAttribute("name", id_name);
+
+                    x2.appendChild(x3);
+                    x1.appendChild(x2);
+                    x0.appendChild(x1);
+                {% endfor %}
+                y.appendChild(x0);
+            }
+        </script>
+
+        <div class="row">
+            <div class="col-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <h4 class="card-title"><b>
+                            Outlet : {{outlet}}<br>
+                            PO Date : {{date}}<br>
+                            Person In Charge : {{user.username}}
+                            </b></h4>
+                        </div>
+                        <form class="form-sample" method="post" action="/order_post/">
+                            {% csrf_token %}
+                            <input type="hidden" name="outlet" value="{{outlet}}"/>
+                            <!-- order form -->
+                            <div class="row">
+                                <p class="card-description"><b><u> Order Form </u></b> </p>
+                            </div>
+                            <div class="row">
+                                {% for o_item in o_items%}
+                                    <div class="col-md-1">
+                                        <div class="form-group row">
+                                            <label class="col-sm-15 col-form-label">{{o_item}}</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div id="order_form">
+                                <div class="row">
+                                    {% for o_item in o_items%}
+                                        <div class="col-md-1">
+                                            <div class="form-group row">
+                                                <input type="text" class="form-control" name="0_{{forloop.counter0}}_0"/>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-outline-success btn-rounded btn-fw" type="button" onclick="add_row_order()">+</button>
+                            </div>
+                                
+                            <div class="row"><p></p></div>
+                            <div class="row"><p></p></div>
+                            <div class="row"><p></p>
+                                <p class="card-description"><b><u> Return Form </u></b></p>
+                            </div>
+                            <div class="row">
+                                {% for r_item in r_items%}
+                                    <div class="col-md-1">
+                                        <div class="form-group row">
+                                        <label class="col-sm-15 col-form-label">{{r_item}}</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div id="return_form">
+                                <div class="row">
+                                    {% for r_item in r_items%}
+                                        <div class="col-md-1">
+                                            <div class="form-group row">
+                                                    <input type="text" class="form-control" name="1_{{forloop.counter0}}_0"/>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-outline-success btn-rounded btn-fw" type="button" onclick="add_row_return()">+</button>
+                            </div>
+
+                            <div class="row"><p></p></div>
+                            <div class="row"><p></p></div>
+                            <div class="row"><p></p>
+                                <p class="card-description"><b><u> Collect Form </u></b></p>
+                            </div>
+                            <div class="row">
+                                {% for c_item in c_items%}
+                                    <div class="col-md-1">
+                                        <div class="form-group row">
+                                        <label class="col-sm-15 col-form-label">{{c_item}}</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <div id="collect_form">
+                                <div class="row">
+                                    {% for c_item in c_items%}
+                                        <div class="col-md-1">
+                                            <div class="form-group row">
+                                                    <input type="text" class="form-control" name="2_{{forloop.counter0}}_0"/>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-outline-success btn-rounded btn-fw" type="button" onclick="add_row_collect()">+</button>
+                            </div>
+
+                            <div class="row"><p/></div>
+                            <div class="row"><p/></div>
+                            <div class="row"><p/></div>
+                            <div class="row"><p/></div>
+                            
+                            <div class="row">
+                                <button class="btn btn-secondary btn-fw" type="submit"><i class="mdi mdi-file-document"></i>Submit</button>
+                                <button class="btn btn-light"><a href="/dashboard/">Cancel</a></button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   
+    {% endblock %}

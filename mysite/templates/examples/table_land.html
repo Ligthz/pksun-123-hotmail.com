@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+    {% block content %}
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-12 grid-margin">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title"> Data to be extracted </h4>
+                    <form class="form-sample">
+                      <p class="card-description"> Date info </p>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">From Date</label>
+                            <div class="col-sm-9">
+                              <input type="date" class="form-control" name="date1">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">To Date</label>
+                            <div class="col-sm-9">
+                              <input type="date" class="form-control" name="date2">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Date Type</label>
+                            <div class="col-sm-4">
+                              <div class="form-radio">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input" name="spefific" id="spefific" value="spefific" checked> Spefific </label>
+                              </div>
+                            </div>
+                            <div class="col-sm-5">
+                              <div class="form-radio">
+                                <label class="form-check-label">
+                                  <input type="radio" class="form-check-input" name="range" id="range" value="range"> Range </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+    {% endblock %}

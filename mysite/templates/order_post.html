@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+    {% load static %}
+
+    {% block content %}
+        <div class="row">
+            <div class="col-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <h4 class="card-title"><b>
+                                Outlet : {{outlet}}<br>
+                                PO Date : {{date}}<br>
+                                Person In Charge : {{user.username}}
+                            </b></h4>
+                        </div>
+                        <form class="form-sample" method="post" action="/order_confirm/">
+                            {% csrf_token %}
+                            <!-- order form -->
+                            <input type="hidden" name="outlet" value="{{outlet}}"/>
+                            <div class="row">
+                                <p class="card-description"><b><u> Order Form </u></b> </p>
+                            </div>
+                            <div class="row">
+                                {%for item in o_items%}
+                                    <div class="col-md-1">
+                                        <div class="form-group row">
+                                            <label class="col-sm-15 col-form-label">{{item}}</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            {% for rw in outp.0 %}
+                            <div id="order_form">
+                                <div class="row">
+                                    {% for val in rw %}
+                                          <div class="col-md-1">
+                                              <div class="form-group row">
+                                                  <input type="text" class="form-control" name="0_{{forloop.counter0}}_{{forloop.parentloop.counter0}}" value="{{val}}" />
+                                              </div>
+                                          </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+                                
+                            <div class="row"><p></p></div>
+                            <div class="row"><p></p></div>
+                            <div class="row"><p></p>
+                                <p class="card-description"><b><u> Return Form </u></b></p>
+                            </div>
+                            <div class="row">
+                                {% for r_item in r_items%}
+                                    <div class="col-md-1">
+                                        <div class="form-group row">
+                                        <label class="col-sm-15 col-form-label">{{r_item}}</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            
+                            {% for rw in outp.1 %}
+                            <div id="return_form">
+                                <div class="row">
+                                    {% for val in rw %}
+                                          <div class="col-md-1">
+                                              <div class="form-group row">
+                                                  <input type="text" class="form-control" name="1_{{forloop.counter0}}_{{forloop.parentloop.counter0}}" value="{{val}}" />
+                                              </div>
+                                          </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            <div class="row"><p></p></div>
+                            <div class="row"><p></p></div>
+                            <div class="row"><p></p>
+                                <p class="card-description"><b><u> Collect Form </u></b></p>
+                            </div>
+                            <div class="row">
+                                {% for c_item in c_items%}
+                                    <div class="col-md-1">
+                                        <div class="form-group row">
+                                        <label class="col-sm-15 col-form-label">{{c_item}}</label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            {% for rw in outp.2 %}
+                            <div id="collect_form">
+                                <div class="row">
+                                    {% for val in rw %}
+                                          <div class="col-md-1">
+                                              <div class="form-group row">
+                                                  <input type="text" class="form-control" name="2_{{forloop.counter0}}_{{forloop.parentloop.counter0}}" value="{{val}}" />
+                                              </div>
+                                          </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            <div class="row"><p/></div>
+                            <div class="row"><p/></div>
+                            <div class="row"><p/></div>
+                            <div class="row"><p/></div>
+                            
+                            <div class="row">
+                                <h3> Confirm Order ? <br></h3>
+                            </div>
+                                
+                            <div class="row">
+                                <button class="btn btn-info btn-fw" type="submit"><i class="mdi mdi-upload"></i>Upload</button>
+                                <button class="btn btn-light" ><a href="/dashboard/">Cancel</a></button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+   
+    {% endblock %}

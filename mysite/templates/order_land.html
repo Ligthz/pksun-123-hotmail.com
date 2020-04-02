@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+    {% block content %}
+          <div class="content-wrapper">
+            <div class="row">
+              <div class="col-12 stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">Select Outlet</h4>
+                        <form class="forms-sample" method='POST'>
+                          {% csrf_token %}
+                          <div class="form-group row">
+                            <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Outlet : </label>
+                            <div class="col-sm-9">
+                              <select class="form-control form-control-lg" id="outlet" name="outlet">
+                                <option>Cheras</option>
+                                <option>Petaling Jaya</option>
+                                <option>Puchong</option>
+                                <option>TTDI</option>
+                                <option>Subang Jaya</option>
+                              </select>
+                            </div>
+                          </div>
+                          <button type="submit" class="btn btn-success mr-2">Submit</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          </div>
+    {% endblock %}

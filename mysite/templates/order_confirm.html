@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+    {% load static %}
+
+    {% block content %}
+        <p>Data shown below had been uploaded succesfully.<br> Please proceed to confirmation.</p>
+        <div class="row">
+            <div class="col-md-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title"><b>
+                        Outlet : {{outlet}}<br>
+                        PO Date : {{date}}<br>
+                        Person In Charge : {{user.username}}
+                    </b></h4>
+                    <h4 class="card-title mb-0">Order Form</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            {% for item in o_items %}
+                            <th>{{item}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rw in outp.0 %}
+                        <tr>
+                            {% for item in rw %}
+                            <th>{{item}}</th>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title mb-0">Return Form</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            {% for item in r_items %}
+                            <th>{{item}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rw in outp.1 %}
+                        <tr>
+                            {% for item in rw %}
+                            <th>{{item}}</th>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h4 class="card-title mb-0">Collect Form</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            {% for item in c_items %}
+                            <th>{{item}}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for rw in outp.2 %}
+                        <tr>
+                            {% for item in rw %}
+                            <th>{{item}}</th>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    {% endblock %}
