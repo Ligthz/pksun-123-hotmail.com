@@ -8,7 +8,3 @@ class BookForm(forms.ModelForm):
         model = Book
         fields = ('title', 'author', 'pdf', 'cover')
 
-class ItemForm(forms.ModelForm):
-    class Meta:
-        model = Item
-        fields = ('text', 'complete')

@@ -8,18 +8,34 @@
                         <h4 class="card-title">Select Outlet</h4>
                         <form class="forms-sample" method='POST'>
                           {% csrf_token %}
+                          <input type="hidden" name="counter" value="{{counter}}"></input>
+                          <div class="form-group row">
+                            <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Code : </label>
+                            <div class="col-sm-9">
+                              <select class="form-control form-control-lg" id="area" name="area">
+                                {% if counter == 0 %}
+                                  {% for area in areas %}
+                                    <option value="{{area}}">{{area}}</option>
+                                  {% endfor %}
+                                {% else %}
+                                  <option value="{{area}}">{{area}}</option>
+                                {% endif %}
+                              </select>
+                            </div>
+                          </div>
+
+                          {% if counter > 0 %}
                           <div class="form-group row">
                             <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Outlet : </label>
                             <div class="col-sm-9">
                               <select class="form-control form-control-lg" id="outlet" name="outlet">
-                                <option>Cheras</option>
-                                <option>Petaling Jaya</option>
-                                <option>Puchong</option>
-                                <option>TTDI</option>
-                                <option>Subang Jaya</option>
+                                {% for code in codes %}
+                                  <option value="{{ code }}">{{ code }}</option>
+                                {% endfor %}
                               </select>
                             </div>
                           </div>
+                          {% endif %}
                           <button type="submit" class="btn btn-success mr-2">Submit</button>
                         </form>
                       </div>

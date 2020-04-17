@@ -3,7 +3,7 @@
 
     {% block content %}
          <script>
-            var order_counter = 0; 
+            var order_counter = 1; 
             var return_counter = 0; 
             var collect_counter = 0; 
             function add_row_order() {
@@ -12,21 +12,45 @@
                 {% for o_item in o_items %}
                     var x1 = document.createElement("DIV");
                     var x2 = document.createElement("DIV");
-                    var x3 = document.createElement("INPUT");
 
                     x0.setAttribute("class", "row");
-                    x1.setAttribute("class", "col-md-1");
-                    x2.setAttribute("class", "form-group row");
-                    x3.setAttribute("class", "form-control");
-                    x3.setAttribute("type", "text");
-                    order_counter = order_counter + 1;
                     var id_name = "0_{{forloop.counter0}}_"+order_counter.toString()
-                    x3.setAttribute("name", id_name);
+                    {% if forloop.counter0 == 0 %}
+                        x1.setAttribute("class", "col-md-2");
+                    {% else %}
+                        x1.setAttribute("class", "col-md-1");
+                    {% endif %}
+                    x2.setAttribute("class", "form-group row");
+                    
+
+                    {% if forloop.counter0 == 0 %}
+                        var x3 = document.createElement("SELECT");
+                        x3.setAttribute("name", id_name);
+                        x3.setAttribute("id", id_name);
+                        x3.setAttribute("class", "form-control");
+                        x3.setAttribute("onchange", "SelectFunc(id)");
+                        {% for product in products %}
+                            var x4 = document.createElement("OPTION");
+                            var val_str = "{{product}}".replace(/#39;/g,"");
+                            x4.setAttribute("value", val_str);
+                            x4.text="{{product.0}}";
+                            x3.appendChild(x4);
+                        {% endfor %}
+                    {% else %}
+                        var x3 = document.createElement("INPUT");
+                        x3.setAttribute("name", id_name);
+                        x3.setAttribute("id", id_name);
+                        x3.setAttribute("class", "form-control");
+                        x3.setAttribute("type", "text");
+                    {% endif %}
+
+                    
 
                     x2.appendChild(x3);
                     x1.appendChild(x2);
                     x0.appendChild(x1);
                 {% endfor %}
+                order_counter = order_counter + 1;
                 y.appendChild(x0);
             }
 
@@ -77,6 +101,20 @@
                 {% endfor %}
                 y.appendChild(x0);
             }
+
+            function SelectFunc(my_id){
+                var x = document.getElementById(my_id).value;
+                
+                var id_y1 = my_id.split("_")[0] + "_1_" + my_id.split("_")[2]
+                var id_y2 = my_id.split("_")[0] + "_2_" + my_id.split("_")[2]
+
+                var y1 = document.getElementById(id_y1);
+                var y2 = document.getElementById(id_y2);
+
+                x = x.split(",")
+                y1.setAttribute("value", x[1].replace(/[^\d.-]/g, ''));
+                y2.setAttribute("value", x[2].replace(/[^\d.-]/g, ''));
+            }
         </script>
 
         <div class="row">
@@ -86,6 +124,7 @@
                         <div class="row">
                             <h4 class="card-title"><b>
                             Outlet : {{outlet}}<br>
+                            Outlet Code : {{code}}<br>
                             PO Date : {{date}}<br>
                             Person In Charge : {{user.username}}
                             </b></h4>
@@ -99,7 +138,11 @@
                             </div>
                             <div class="row">
                                 {% for o_item in o_items%}
-                                    <div class="col-md-1">
+                                    {% if forloop.counter0 == 0 %}
+                                        <div class="col-md-2">
+                                    {% else %}
+                                        <div class="col-md-1">
+                                    {% endif %}
                                         <div class="form-group row">
                                             <label class="col-sm-15 col-form-label">{{o_item}}</label>
                                         </div>
@@ -110,9 +153,19 @@
                             <div id="order_form">
                                 <div class="row">
                                     {% for o_item in o_items%}
+                                        {% if forloop.counter0 == 0 %}
+                                        <div class="col-md-2">
+                                            <div class="form-group row">
+                                                <select class="form-control form-control-lg" id="0_0_0" name="0_0_0" onchange="SelectFunc(id)">
+                                                    {% for product in products%}
+                                                        <option value="{{product}}">{{product.0}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            {% else %}
                                         <div class="col-md-1">
                                             <div class="form-group row">
-                                                <input type="text" class="form-control" name="0_{{forloop.counter0}}_0"/>
+                                                <input type="text" class="form-control" name="0_{{forloop.counter0}}_0" id="0_{{forloop.counter0}}_0"/>
+                                            {% endif %}
                                             </div>
                                         </div>
                                     {% endfor %}

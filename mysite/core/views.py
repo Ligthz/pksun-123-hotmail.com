@@ -10,11 +10,15 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import BookForm
-from .models import Book, Item
+from .models import *
 from .my_db import *
 from mysite.settings import MEDIA_ROOT
-
+import pickle
+import os
 import datetime
+import mysite.core.models
+import csv
+import mysite.core.models as models
 
 
 o_items = ['Item','RCP','RSP','Bal','Order','D.Qty','D.FP','Unit.AD','Remark' ]
@@ -36,6 +40,38 @@ def Home(request):
 
         
     return render(request, 'home.html',{"datas":datas})
+
+def add_data_once(request):
+    csv_path = os.path.join(MEDIA_ROOT,"null.csv")
+    datas = []
+    with open(csv_path, newline='') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=',', quotechar='"')
+        for row in spamreader:
+            datas.append(row)
+
+    parameter = datas[0][:]
+    datas = datas[1:]
+
+    print(parameter)
+    print(datas)
+
+    for data in datas:
+        list1 = Product(
+            Brand = data[2],
+            Barcodes = data[1],
+            Name = data[3],
+            PackSize = data[4],
+            CtnQty = data[5],
+            RCP = data[6],
+            RSP = data[7],
+            RetailerMargin = data[8],
+            FastPay = data[9],
+            UlkPurchase = data[0]
+        )
+        #list1.save()
+
+    return render(request, 'tester.html', {"data": datas})
+    
 
 def login(request):
     u_id = request.POST.get('id')
@@ -89,12 +125,37 @@ def order_form_process(requests):
 @login_required
 def order(request):
     if request.method == 'POST':
-        outlet = request.POST.get("outlet")
-        tdy_date = get_date()
-        return render(request, 'order.html',{"outlet":outlet,"date":tdy_date,"o_items":o_items,"r_items":r_items,"c_items":c_items})
+        counter = request.POST.get("counter")
+        counter = int(counter)
+        counter += 1
+        if counter == 1:
+            area = request.POST.get("area")
+            codes = []
+            objs = models.outlet.objects.filter(Area=area)
+            for obj in objs:
+                codes.append(str(obj.Code)+" : "+str(obj.CompanyName))
+            return render(request, 'order_land.html',{"area":area,"codes":codes,"counter":counter})
+        else:
+            outlets = request.POST.get("outlet")
+            outlets = outlets.split(" : ")
+            outlet = outlets[1]
+            code = outlets[0]
+            tdy_date = get_date()
+            objs = Product.objects.all()
+            products = []
+            for obj in objs:
+                products.append([obj.Name,obj.RCP,obj.RSP])
+            return render(request, 'order.html',{"outlet":outlet,"code":code,"date":tdy_date,"products":products,"o_items":o_items,"r_items":r_items,"c_items":c_items})
 
     else:
-        return render(request, 'order_land.html')
+        counter = 0
+        areas = []
+        objs = models.outlet.objects.all()
+        for obj in objs:
+            if obj.Area not in areas:
+                areas.append(obj.Area)
+        areas.sort()
+        return render(request, 'order_land.html',{"areas":areas,"counter":counter})
 
         
 
@@ -116,88 +177,3 @@ def order_confirm(request):
 
     return render(request, 'order_confirm.html',{"outlet":outlet,"date":tdy_date,"o_items":o_items,"r_items":r_items,"c_items":c_items, "outp":outp})
 
-
-
-@login_required
-def secret_page(request):
-    list1 = create_item("Tim's List", False)  # create a ToDoList 
-    list1.save()  # saves the ToDoList in the database
-
-    all_list  = all_item()  # gets the ToDoList object(s) with name "Tim's List"
-    find_list  = find_item("all",False)  # gets the ToDoList object(s) with name "Tim's List"
-    #for i_list in find_list:
-    #    i_list.delete()
-    print(find_list)
-    print(all_list)
-    #delete_all_item()
-    print(all_list[0])
-    delete_item(all_list[0])
-    all_list  = all_item()  # gets the ToDoList object(s) with name "Tim's List"
-    print(all_list)
-    # Since we defined a relationship between Item and ToDoList each ToDoList has an "item_set"
-    #list1.complete = True  # change the name of the list
-    #list1.save()  # save changes
-    #list1.delete()  # delete the list
-    return render(request, 'secret_page.html')
-
-
-class SecretPage(LoginRequiredMixin, TemplateView):
-    template_name = 'secret_page.html'
-
-
-@login_required
-def upload(request):
-    context = {}
-    if request.method == 'POST':
-        uploaded_file = request.FILES['document']
-        fs = FileSystemStorage()
-        name = fs.save(uploaded_file.name, uploaded_file)
-        context['url'] = fs.url(name)
-    return render(request, 'upload.html', context)
-
-
-def book_list(request):
-    books = Book.objects.all()
-    return render(request, 'book_list.html', {
-        'books': books
-    })
-
-
-def upload_book(request):
-    if request.method == 'POST':
-        form = BookForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('book_list')
-    else:
-        form = BookForm()
-    return render(request, 'upload_book.html', {
-        'form': form
-    })
-
-
-def delete_book(request, pk):
-    if request.method == 'POST':
-        book = Book.objects.get(pk=pk)
-        book.delete()
-    return redirect('book_list')
-
-
-class BookListView(ListView):
-    model = Book
-    template_name = 'class_book_list.html'
-    context_object_name = 'books'
-
-
-class UploadBookView(CreateView):
-    model = Book
-    form_class = BookForm
-    success_url = reverse_lazy('class_book_list')
-    template_name = 'upload_book.html'
-
-
-def MQTT(request):
-    return render(request, 'thread.html')
-
-def up_graph(request):
-    return render(request, 'up_graph.html')
